@@ -55,6 +55,8 @@ if __name__ == '__main__':
     torch.set_default_dtype(DTYPE)
     torch.backends.cudnn.enabled = False
 
+    #test
+
     args = argparse.ArgumentParser(description='Robust SSDU')
     args.add_argument('-c', '--config', default='default.yaml', type=str,
                       help='config file path (default: default.yaml)')
