@@ -1,0 +1,34 @@
+data:
+  fully_samp_size: 10
+  method: n2n
+  nc: 20
+  nx: 640
+  ny: 320
+  poly_order: 8
+  sample_type: columns
+  sigma1: 0.02
+  sigma2: 0.01
+  train_trunc: 10000000
+  us_fac: 4
+  us_fac_lambda: 2
+  val_trunc: 2000000
+network:
+  denoi_model: unet
+  device: cuda
+  ncascades: 5
+  nlayers_dncnn: 18
+  type: varnet
+optimizer:
+  K_weight: true
+  alpha_weight: true
+  batch_size: 2
+  epochs: 100
+  lamb: 0.5
+  load_model_loc: 0
+  loss: mse
+  lr: 1e-3
+  momentum: 0.9
+  mu: 1e4
+  name: Adam
+  weight_decay: 0.0
+seed: 100
