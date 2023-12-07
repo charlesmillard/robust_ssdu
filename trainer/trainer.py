@@ -24,7 +24,8 @@ class Trainer:
         self.epoch_frac_save = epoch_frac_save
         self.nshow = trainloader.__len__() // epoch_frac_save if self.cuda_avail else 1
 
-        self.lambda_param, self.alpha_param = self._prepare_hyp()
+        self.lambda_param = self.config['mask']['us_fac_lambda']
+        self.alpha_param = torch.tensor([float(self.config['noise']['alpha'])])
 
         self.logdir = config['network']['save_loc']
         self.writer = SummaryWriter(self.logdir)
@@ -103,25 +104,6 @@ class Trainer:
                         break
 
         return running_loss_val / (i + 1), running_matched_loss / (i + 1), y0, y0_est
-
-    def _prepare_hyp(self):
-        """
-        Sets lambda and alpha parameters as trainable parameters if required
-        :return:
-        """
-        if self.config['hyp_tuning']['lambda_active']:
-            lambda_param = torch.nn.Parameter(self.config['hyp_tuning']['lambda_start'] * torch.ones(1))
-            self.network.register_parameter('lambda_param', lambda_param)
-        else:
-            lambda_param = self.config['mask']['us_fac_lambda']
-
-        if self.config['hyp_tuning']['alpha_active']:
-            alpha_param = torch.nn.Parameter(self.config['hyp_tuning']['alpha_start'] * torch.ones(1))
-            self.network.register_parameter('alpha_param', alpha_param)
-        else:
-            alpha_param = torch.tensor([float(self.config['noise']['alpha'])])
-
-        return lambda_param, alpha_param
 
     def _save_examples(self, epoch, y0, y0_est):
         if epoch == 0:
