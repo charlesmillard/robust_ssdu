@@ -12,6 +12,9 @@ class ZfData(Dataset):
         self.sample_type = config['mask']['sample_type']
         self.dev = config['network']['device']
         self.sim_noise = config['noise']['sim_noise']
+        self.data_norm = config['data']['norm']
+        self.whiten_noise = config['noise']['whiten']
+        self.whiten_sq_sz = config['noise']['whiten_sq_sz']
 
         self.prob_omega = gen_pdf(self.nx, self.ny, 1 / config['mask']['us_fac'], config['mask']['poly_order'],
                                   config['mask']['fully_samp_size'], self.sample_type)
@@ -64,11 +67,13 @@ class ZfData(Dataset):
         y0 = torch.permute(torch.view_as_real(y0), (3, 0, 1, 2))
         y0 = pad_or_trim_tensor(y0, self.nx, self.ny)
 
-        if self.sim_noise:
+        if self.data_norm:
             y0 /= torch.max(kspace_to_rss(torch.unsqueeze(y0, 0)))
-        else:
+
+        if self.whiten_noise:
             # whiten and normalize to unit noise standard deviation
-            backg_mask = mask_corners(self.nx, self.ny, 30)
+            # (useful for prospectively noisy data
+            backg_mask = mask_corners(self.nx, self.ny, self.whiten_sq_sz)
             sig_inv = whitening_mtx(y0, backg_mask, True)
             y0 = whiten_kspace(y0, sig_inv)
 

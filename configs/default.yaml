@@ -2,12 +2,12 @@
 #----- configure the data loader
 data:
   set: fastmri
-  loc: /home/xsd618/data/fastMRI_test_subset_brain/
   nx: 640
   ny: 320
   train_trunc: null
   val_trunc: null
   fixed_ncoil: 16 # if not null, only include data on fixed_ncoil coils
+  norm: True
 
 #---- sampling and further sampling (lambda) masks
 mask:
@@ -25,6 +25,8 @@ noise:
   sim_noise: True # should noise be simulated?
   sigma1: 0.06 # simluated noise std
   alpha: 1 # ratio of noise and further noise
+  whiten: False
+  whiten_sq_sz: 30
 
 #----- network params
 network:
@@ -49,9 +51,3 @@ optimizer:
   seed: 100
   sched_mstones: null
 
-#------- hyperparameter tuning
-hyp_tuning:
-  lambda_active: False
-  lambda_start: 10.0
-  alpha_active: False
-  alpha_start: 0.5
