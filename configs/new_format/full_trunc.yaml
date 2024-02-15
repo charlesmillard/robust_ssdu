@@ -1,0 +1,56 @@
+
+#----- configure the data loader
+data:
+  set: fastmri
+  nx: 640
+  ny: 320
+  train_trunc: 250
+  val_trunc: null
+  fixed_ncoil: 16 # if not null, only include data on fixed_ncoil coils
+
+#---- sampling and further sampling (lambda) masks
+mask:
+  sample_type: columns
+  sample_type_lambda: columns
+  fully_samp_size: 10
+  fully_samp_size_lambda: 10
+  poly_order: 8
+  poly_order_lambda: 8
+  us_fac: 8
+  us_fac_lambda: 2
+
+#----- measurement and additional noise
+noise:
+  sim_noise: True # should noise be simulated?
+  sigma1: 0.06 # simluated noise std
+  alpha: 1 # ratio of noise and further noise
+
+#----- network params
+network:
+  type: varnet # unet or varnet (fixed_ncoil must be not null for unet)
+  denoi_model: split_unet # standard unet or proposed split_unet
+  ncascades: 5
+
+#------ optimizer
+optimizer:
+  method: full
+  K_weight: true
+  alpha_weight: true
+  batch_size: 1
+  epochs: 100
+  noise2recon_lamb: 1
+  load_model_root: null
+  loss: mse
+  lr: 1e-3
+  momentum: 0.9
+  name: Adam # Adam or SGD
+  weight_decay: 0.0 # for SGD only
+  seed: 100
+  sched_mstones: null
+
+#------- hyperparameter tuning
+hyp_tuning:
+  lambda_active: False
+  lambda_start: 10.0
+  alpha_active: False
+  alpha_start: 0.5

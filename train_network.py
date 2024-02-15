@@ -10,6 +10,8 @@ import argparse
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import MultiStepLR
 
+from random import sample
+
 from data_loader.zf_data_loader import ZfData
 from utils_n2n.preparations import *
 from configs.config_loader import *
@@ -20,8 +22,11 @@ DTYPE = torch.float32
 
 
 def main(config):
-    trainloader = DataLoader(ZfData('train', config), batch_size=config['optimizer']['batch_size'], shuffle=True)
-    validloader = DataLoader(ZfData('val', config), batch_size=3 * config['optimizer']['batch_size'])
+    zf_train = truncate_dataset(ZfData('train', config), config['data']['train_trunc'])
+    zf_val = truncate_dataset(ZfData('val', config), config['data']['val_trunc'])
+
+    trainloader = DataLoader(zf_train, batch_size=config['optimizer']['batch_size'], shuffle=True)
+    validloader = DataLoader(zf_val, batch_size=3 * config['optimizer']['batch_size'])
 
     # create log directory
     logdir = config['network']['save_loc']

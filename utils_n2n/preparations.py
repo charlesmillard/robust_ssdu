@@ -2,6 +2,8 @@ from utils_n2n.utils import *
 from fastmri.models.unet import Unet
 from model.varnet_denoi_recon_split import VarNet
 
+from random import sample
+
 
 def create_criterion(config):
     loss_choice = config['optimizer']['loss']
@@ -59,3 +61,17 @@ def create_optimizer(base_net, config):
         raise NameError('You have chosen an invalid optimizer name')
 
     return optimizer
+
+
+def truncate_dataset(dataset, trunc):
+    n_data = dataset.__len__()
+    if trunc is not None:
+        if n_data > trunc:
+            print('{} dataset truncated from {} slices to {}'.format(dataset.__name__, n_data, trunc))
+            dataset = torch.utils.data.Subset(dataset, sample(range(n_data), trunc))
+        else:
+            print('{} Dataset has {} slices and requested truncation is {}, so ignored'.format(dataset.__name__, n_data, trunc))
+    else:
+        print('{} dataset contains {} slices'.format(dataset.__name__, n_data))
+
+    return dataset

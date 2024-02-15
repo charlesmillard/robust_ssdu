@@ -1,7 +1,7 @@
 from utils_n2n.utils import *
 from torch.utils.data import Dataset
 from model.mask_tools import *
-
+from random import sample
 
 class ZfData(Dataset):
     def __init__(self, categ='train', config=dict):
@@ -23,8 +23,6 @@ class ZfData(Dataset):
         self.fileRoot = root + categ + '/'
         self.fileRootSmaps = root + categ + '_smaps/'
         self.file_list, self.slice_cumsum, self.len = self._select_slices(categ, config)
-
-        print(categ + ' dataset contains {} slices'.format(self.len))
 
     def __len__(self):
         return self.len
@@ -92,12 +90,4 @@ class ZfData(Dataset):
         slice_cumsum = np.cumsum(nslices)
         slice_cumsum = np.insert(slice_cumsum, 0, 0)
 
-        dataset_trunc = config['data']['train_trunc'] if categ == 'train' else config['data']['val_trunc']
-        if dataset_trunc is not None:
-            if len(file_list) > dataset_trunc:
-                file_list_corrected = file_list_corrected[:dataset_trunc]
-                nslices = nslices[:dataset_trunc]
-
-        nslices_all = int(np.sum(nslices))
-
-        return file_list_corrected, slice_cumsum, nslices_all
+        return file_list_corrected, slice_cumsum, int(np.sum(nslices))
