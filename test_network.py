@@ -128,6 +128,16 @@ def main(config, log_loc):
                     y_tilde = mask_lambda*(y + mask_omega * noise2)
                     outputs = pass_network(y_tilde, network)
                     y0_est_tilde = (y_tilde != 0) * ((1 + alpha_sq) * outputs - y_tilde) / alpha_sq + outputs * (y_tilde == 0)
+                elif meth == "r2r_ssdu":
+                    t1 = time.time()
+                    outputs = pass_network(y, network)
+                    y0_est = (y != 0) * outputs + outputs * (y == 0)
+                    t2 = time.time()
+
+                    y_tilde = mask_lambda * (y + mask_omega * noise2)
+                    outputs = pass_network(y_tilde, network)
+                    y0_est_tilde = (y_tilde != 0) * outputs + outputs * (y_tilde == 0)
+
 
 
                 y0_est = zero_k(y0_est)

@@ -17,23 +17,26 @@ import itertools
 sd = 320  # 260,  320, 420, 270. 570, 580
 show_main_res = False
 
-file_choice = 'file_brain_AXFLAIR_200_6002566.h5'  # 'file_brain_AXFLAIR_200_6002570.h5' # 'file_brain_AXFLAIR_200_6002566.h5'
+file_options = ['file_brain_AXFLAIR_200_6002566.h5',
+                'file_brain_AXFLAIR_200_6002585.h5',
+                'file_brain_AXFLAIR_200_6002570.h5',
+                'file_brain_AXFLAIR_200_6002558.h5', #craniotomy example
+                'file_brain_AXFLAIR_200_6002567.h5',
+                'file_brain_AXFLAIR_200_6002549.h5']
+
+file_choice = file_options[0]
 # file_choice = '2022121708_T104.h5' # '2022121708_FLAIR04.h5' #'2022121708_T203.h5' # '2022120404_T201.h5' #'2022120409_FLAIR02.h5' # '2022101303_T104.h5'
-slice_choice = 8
+slice_choice = 6
 is_lowfield = False
 
 use_slice_choice = True
+verbose = False
 
-accels = [8]
-sigmas = [0.04]
+accels = [4]
+sigmas = [0.08]
+type = 'new_weighting/pathologies/' + str(accels[0]) + 'x_' + str(sigmas[0])
 
-type = 'new_weighting/'  # + str(accels[0]) + 'x_' + str(sigmas[0])
-
-roots = ['whole_experiment_alph1',
-         'whole_experiment_alph1_weighted',
-         'whole_experiment',
-         'weighted_experiment',
-         ]
+type = 'new_weighting/r2r/'
 
 roots = [  # 'just_n2n_ssdu_alph0.5',
     # 'whole_experiment/8x/0.06/noise2recon.yaml',
@@ -56,6 +59,26 @@ roots = [  # 'just_n2n_ssdu_alph0.5',
     'whole_experiment_alph1_weighted',
     'whole_experiment']
 
+roots = [# 'just_n2n_ssdu_alph0.5',
+         # 'whole_experiment/8x/0.06/noise2recon.yaml',
+         # 'whole_experiment_alph1',
+        #'whole_experiment_alph1/4x/0.02/noise2recon.yaml',
+        # 'whole_experiment_alph1/4x/0.04/noise2recon.yaml',
+        'alpha_robustness_n2n_ssdu_weighted/0.75.yaml/38770026_5',
+        'alpha_robustness_weighted_only/1/n2n_weighted.yaml/30265058',
+        'new_format/rssdu_alph75',
+        'new_format/unw_n2f_alph125',
+        'new_format/unw_rssdu_alph50',
+         'whole_experiment_alph1/4x/0.06/noise2recon.yaml',
+        'whole_experiment_alph1/4x/0.08/noise2recon.yaml',
+        # 'whole_experiment_alph1/8x/0.02/noise2recon.yaml',
+        'whole_experiment_alph1/8x/0.04/noise2recon.yaml',
+        #'whole_experiment_alph1/8x/0.06/noise2recon.yaml',
+        'alpha_robustness_weighted_only',
+        'whole_experiment_alph1/8x/0.08/noise2recon.yaml',
+        'whole_experiment_alph1_weighted',
+        'whole_experiment']
+
 root_loc = '/home/xsd618/noisier2noise_kspace_denoising/saved/logs/cuda/'
 # meths = ['full', 'full_noisy', 'n2n', 'n2n', 'ssdu', 'noise2recon', 'rei',  'n2n_ssdu',  'n2n_ssdu']
 # is_weighted = [None, None, False, True, None, None, None, False,  True]
@@ -64,9 +87,9 @@ meths = ['full', 'noise2full', 'noisier2full', 'noisier2full', 'ssdu', 'noise2re
 is_weighted = [None, None, False, True, None, None, False, True]
 
 # subset = (0, 1, 2, 3, 4, 5, 6, 7) # everything
-# subset = (0, 1, 2, 3) # noisy, fully sampled training data
+#subset = (0, 1, 2, 3) # noisy, fully sampled training data
 subset = (0, 4, 5, 6, 7)  # noisy, sub-sampled sampled training data
-# subset = (0, 3, 4, 7)
+subset = (4, 7)
 
 meths = [meths[i] for i in subset]
 is_weighted = [is_weighted[i] for i in subset]
@@ -147,9 +170,29 @@ bm3d_denoising = [False, False, False]  # [False, False, True, False]
 #            'logs/cuda/alpha_robustness_weighted_only/0.25/n2n_weighted.yaml/29865869',
 #             'logs/cuda/alpha_robustness_weighted_only/1/n2n_weighted.yaml/30265058']
 
-log_loc = ['saved/logs/cuda/alpha_robustness_n2n_ssdu_weighted/0.5.yaml/38761182_2',
-           'saved/logs/cuda/alpha_robustness_n2n_ssdu_weighted/0.75.yaml/38770026_5',
-           'saved/logs/cuda/alpha_robustness_n2n_ssdu_weighted/1.5.yaml/38761181_1']
+# log_loc = ['saved/logs/cuda/alpha_robustness_n2n_ssdu_weighted/0.5.yaml/38761182_2',
+#            'saved/logs/cuda/alpha_robustness_n2n_ssdu_weighted/0.75.yaml/38770026_5',
+#            'saved/logs/cuda/alpha_robustness_n2n_ssdu_weighted/1.5.yaml/38761181_1']
+#
+# log_loc = ['saved/logs/cuda/new_format/ssdu_high_lr.yaml/39380227_1']
+#
+# log_loc = [ 'saved/logs/cuda/whole_experiment/8x/0.06/full.yaml/16422984/',
+#             'saved/logs/cuda/whole_experiment/8x/0.06/n2n_ssdu.yaml/16421958',
+#            'saved/logs/cuda/alpha_robustness_n2n_ssdu_weighted/0.75.yaml/38770026_5',
+#            'saved/logs/cuda/whole_experiment_alph1_weighted_n2n_ssdu/8x/0.06/n2n_ssdu.yaml/39466704_1']
+
+log_loc = ['saved/logs/cuda/whole_experiment/8x/0.06/full.yaml/16422984/',
+           'saved/logs/cuda/whole_experiment/8x/0.06/n2n_ssdu.yaml/16421958',
+           'saved/logs/cuda/whole_experiment_alph1_weighted_n2n_ssdu/8x/0.06/n2n_ssdu.yaml/39466704_1',
+           'saved/logs/cuda/new_format/r2r_ssdu_rob/r2r_ssdu_075.yaml/46239147_6',
+           ]
+
+# log_loc = ['saved/logs/cuda/whole_experiment/4x/0.04/full.yaml/16815717',
+#            'saved/logs/cuda/whole_experiment_alph1_weighted_n2n_ssdu/4x/0.04/n2n_ssdu.yaml/38969338_8',
+#            'saved/logs/cuda/new_format/r2r_ssdu_4x.yaml/45713543_1',
+#            'saved/logs/cuda/new_format/r2r_ssdu_4x_kw.yaml/45744120_1']
+
+
 
 print(log_loc)
 
@@ -190,6 +233,7 @@ slice_found = False
 
 with torch.no_grad():
     for l in log_loc:
+        print('********')
         print('log directory: ' + l)
 
         if show_main_res:
@@ -204,6 +248,9 @@ with torch.no_grad():
 
         config['network']['device'] = 'cpu'
         config['data']['loc'] = '/home/xsd618/data/fastMRI_test_subset_brain/'
+
+        config['data']['fixed_ncoil'] = None
+
         meth = config['optimizer']['method']
         print('Method is: ' + meth)
         print('Accel is: ' + str(config['mask']['us_fac']))
@@ -290,9 +337,6 @@ with torch.no_grad():
 
         below_noise_fl = torch.as_tensor(torch.abs(y0[0, 0, 0]) < sigma1, dtype=float)
 
-        print("method is {}".format(meth))
-        print("Noise std is {}".format(sigma1))
-
         # pad = torch.abs(y0) == 0
         y = zero_k(y)
 
@@ -321,6 +365,15 @@ with torch.no_grad():
             outputs = pass_network(y, network)
             y0_est = outputs
             y0_est_tilde = outputs
+        elif meth == "r2r_ssdu":
+            outputs = pass_network(y, network)
+            y0_est = (y != 0) * outputs + outputs * (y == 0)
+
+            y_tilde = mask_lambda * (y + mask_omega * noise2)
+            outputs = pass_network(y_tilde, network)
+            y0_est_tilde = (y_tilde != 0) * outputs + outputs * (y_tilde == 0)
+
+
 
         # if meth not in ["full", "noise2full", "noise2recon", "rei"]:
         #     print('Difference between y_tilde and y is {:e}'.format(torch.mean((y_tilde - y)**2)))
@@ -357,8 +410,9 @@ with torch.no_grad():
             x0_unaveraged = torch.flip(x0_unaveraged, [2])
             x_input = torch.flip(x_input, [2])
 
-        print('Est NMSE: {:e}'.format(nmse_loss(y0_est, y0)))
-        print('Est NMSE (im): {:e}'.format(nmse_loss(x0_est, x0)))
+        if verbose:
+            print('Est NMSE: {:e}'.format(nmse_loss(y0_est, y0)))
+            print('Est NMSE (im): {:e}'.format(nmse_loss(x0_est, x0)))
 
         all_nmse.append(nmse_loss(y0_est, y0).item())
         all_nmse_rss.append(nmse_loss(x0_est, x0).item())
@@ -378,10 +432,6 @@ with torch.no_grad():
         x_err = torch.abs(x0_est - x0)
         input_err = torch.abs(x_input - x0)
 
-        print('Input NMSE (image_domain): {:e}'.format(nmse_loss(x_input, x0)))
-        print('Unaveraged NMSE (image_domain): {:e}'.format(nmse_loss(x0_unaveraged, x0)))
-        print('Input NMSE (k-space): {:e}'.format(nmse_loss(y, y0)))
-
         nx = y.shape[-2]
         if torch.numel(mask < 10):
             mask = kspace_to_im(y0) > 0  # 0.2
@@ -392,7 +442,12 @@ with torch.no_grad():
         x_im = kspace_to_im(y0_est)
         masked_im = mask * x_im
         masked_im = masked_im[masked_im != 0]
-        print('Estimate of noise std is {}'.format(torch.std(masked_im)))
+
+        print('Input NMSE (k-space): {:e}'.format(nmse_loss(y, y0)))
+        if verbose:
+            print('Input NMSE (image_domain): {:e}'.format(nmse_loss(x_input, x0)))
+            print('Unaveraged NMSE (image_domain): {:e}'.format(nmse_loss(x0_unaveraged, x0)))
+            print('Estimate of noise std is {}'.format(torch.std(masked_im)))
 
         x2 = np.array((m * x0[0, 0]).detach().cpu())
         x1 = np.array((m * x0_est[0, 0]).detach().cpu())
@@ -415,9 +470,9 @@ with torch.no_grad():
             x0_error_all = torch.cat((input_err / mx, x_err / mx), dim=0)
             # x0_est_all = torch.cat((x0 / mx, x0_est / mx), dim=0)
             x_noisy = kspace_to_rss(y0 + noise1)
-            x0_est_all = torch.cat((x0 / mx, x_noisy / mx, x_input / mx, x0_est / mx), dim=0)
+            #x0_est_all = torch.cat((x0 / mx, x_noisy / mx, x_input / mx, x0_est / mx), dim=0)
             # x0_est_all = torch.cat((x0 / mx, x_input / mx, x0_est / mx), dim=0)
-            # x0_est_all = torch.cat((x0 / mx, x0_est / mx), dim=0)
+            x0_est_all = torch.cat((x0 / mx, x0_est / mx), dim=0)
             x_dc_all = torch.cat((x0 / mx, x_ssdu / mx), dim=0)
             x0_est_all_tilde = torch.cat((x0 / mx, x_input / mx, x0_est_tilde / mx), dim=0)
             x_input_all = x_input / mx

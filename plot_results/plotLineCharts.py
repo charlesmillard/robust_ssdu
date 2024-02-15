@@ -13,6 +13,10 @@ roots = [# 'just_n2n_ssdu_alph0.5',
          # 'whole_experiment_alph1',
         #'whole_experiment_alph1/4x/0.02/noise2recon.yaml',
         # 'whole_experiment_alph1/4x/0.04/noise2recon.yaml',
+        'alpha_robustness_n2n_ssdu_weighted/0.75.yaml/38770026_5',
+        'new_format/rssdu_alph75',
+        # 'new_format/unw_n2f_alph125',
+        'new_format/unw_rssdu_alph50',
          'whole_experiment_alph1/4x/0.06/noise2recon.yaml',
         'whole_experiment_alph1/4x/0.08/noise2recon.yaml',
         # 'whole_experiment_alph1/8x/0.02/noise2recon.yaml',
@@ -48,11 +52,9 @@ markers = ['+', 'o', 'x', '+', 'o', '*', 'x', '+']
 linestyles = [':', '--', '-.', '-', '--', ':', '-.', '-']
 
 #subset = (0, 1, 2, 3, 4, 5, 6, 7) # everything
-subset = (0, 1, 2, 3) # noisy, fully sampled training data
-#subset = (0, 4, 5, 6, 7) # noisy, sub-sampled sampled training data
 
 subset = (0, 1, 2, 3) # noisy, fully sampled training data weighted only
-#subset = (0, 4, 5, 6, 7) # noisy, sub-sampled sampled training data weighted only
+subset = (0, 4, 5, 6, 7) # noisy, sub-sampled sampled training data weighted only
 # subset = (0, 4, 5, 7)
 
 meths = [meths[i] for i in subset]
@@ -130,7 +132,7 @@ for ii in range(1, n_meths):
     ax.plot(sigmas, prc_worse, col[ii], marker=markers[ii],  linestyle=linestyles[ii])
 ax.set_ylabel('$L - L_{Benchmark}$',  fontsize=14)
 # ax.set_xlim([0.015, 0.085])
-ax.set_ylim([-0.1, 3.3])
+ax.set_ylim([-0.1, 3.7])
 ax.set_xlabel('Measurement noise $\sigma_n$',  fontsize=14)
 ax.set_title('$R_\Omega=4$')
 plt.legend(nm, ncol=1, fontsize=10, loc='upper left')
@@ -143,7 +145,7 @@ for ii in range(1, n_meths):
     ax2.plot(sigmas, prc_worse, col[ii], marker=markers[ii],  linestyle=linestyles[ii])
 ax2.set_ylabel('$L - L_{Benchmark}$',  fontsize=14)
 # ax2.set_xlim([0.015, 0.085])
-ax2.set_ylim([-0.1, 3.3])
+ax2.set_ylim([-0.1, 3.7])
 ax2.set_xlabel('Measurement noise $\sigma_n$',  fontsize=14)
 ax2.set_title('$R_\Omega=8$')
 fig.tight_layout()

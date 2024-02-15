@@ -61,8 +61,8 @@ def training_loss(data, net, config, criterion, lambda_scale, alpha_param):
         if config['optimizer']['alpha_weight']:
             mask_target = (~mask_omega).float() + alpha_weight * mask_omega.float()
         else:
-            mask_target = torch.ones(mask_omega.shape)
-    elif meth == 'robust_ssdu':
+            mask_target = torch.ones(mask_omega.shape).to(dev)
+    elif meth in ['robust_ssdu', 'r2r_ssdu']:
         y_input = mask_lambda * mask_omega * (y_noisy + noise2)
         recon_mask = mask_omega * ~mask_lambda
         if config['optimizer']['K_weight']:
@@ -72,6 +72,10 @@ def training_loss(data, net, config, criterion, lambda_scale, alpha_param):
             # denoi_mask = alpha_weight ** 0.5 * denoi_mask.float()
             denoi_mask = alpha_weight * denoi_mask.float()
         mask_target = recon_mask + denoi_mask
+
+        if meth == "r2r_ssdu":
+            y_target = y_target - noise2 / alpha**2
+
     else:
         raise Exception('Invalid training method chosen')
 
@@ -97,6 +101,9 @@ def training_loss(data, net, config, criterion, lambda_scale, alpha_param):
     elif meth == 'robust_ssdu':
         denoi_mask = mask_omega * mask_lambda
         y0_est = denoi_mask * ((1 + alpha_sq) * outputs - y_input) / alpha_sq + ~denoi_mask * outputs
+    elif meth == 'r2r_ssdu':
+        denoi_mask = mask_omega * mask_lambda
+        y0_est = denoi_mask * outputs + ~denoi_mask * outputs
 
     y0_est = zero_k(y0_est)
 

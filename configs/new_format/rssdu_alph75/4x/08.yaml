@@ -7,7 +7,6 @@ data:
   train_trunc: null
   val_trunc: null
   fixed_ncoil: 16 # if not null, only include data on fixed_ncoil coils
-  norm: True # normalise data to maximum 1
 
 #---- sampling and further sampling (lambda) masks
 mask:
@@ -17,16 +16,14 @@ mask:
   fully_samp_size_lambda: 10
   poly_order: 8
   poly_order_lambda: 8
-  us_fac: 8
+  us_fac: 4
   us_fac_lambda: 2
 
 #----- measurement and additional noise
 noise:
   sim_noise: True # should noise be simulated?
-  sigma1: 0.06 # simluated noise std
-  alpha: 1 # ratio of noise and further noise
-  whiten: False
-  whiten_sq_sz: 30
+  sigma1: 0.08 # simluated noise std
+  alpha: 0.75 # ratio of noise and further noise
 
 #----- network params
 network:
@@ -39,7 +36,7 @@ optimizer:
   method: robust_ssdu
   K_weight: true
   alpha_weight: true
-  batch_size: 2
+  batch_size: 1
   epochs: 100
   noise2recon_lamb: 1
   load_model_root: null
@@ -51,3 +48,9 @@ optimizer:
   seed: 100
   sched_mstones: null
 
+#------- hyperparameter tuning
+hyp_tuning:
+  lambda_active: False
+  lambda_start: 10.0
+  alpha_active: False
+  alpha_start: 0.5

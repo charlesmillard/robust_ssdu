@@ -14,7 +14,8 @@ roots = ['alpha_robustness', 'alpha_robustness_n2n_ssdu', 'alpha_robustness_nois
          # '/home/xsd618/noisier2noise_kspace_denoising/logs/cuda/weighted_experiment/8x/0.06/noise2recon.yaml',
          # '/home/xsd618/noisier2noise_kspace_denoising/logs/cuda/whole_experiment/8x/0.06/noise2recon.yaml']
 
-roots = ['alpha_robustness_n2n_ssdu_weighted', 'alpha_robustness_n2n_ssdu_weighted/0.75.yaml/38770026_5',
+roots = ['new_format/r2r_ssdu_rob', 'new_format/n2f_25_patch.yaml',
+    'alpha_robustness_n2n_ssdu_weighted', 'alpha_robustness_n2n_ssdu_weighted/0.75.yaml/38770026_5',
          'whole_experiment_alph1_weighted_n2n_ssdu/8x/0.06/',
          'alpha_robustness_weighted_only', 'alpha_robustness', 'alpha_robustness_n2n_ssdu',
          'whole_experiment/8x/0.06/', 'whole_experiment_alph1/8x/0.06/',
@@ -33,14 +34,14 @@ alphas = [0.25, 0.5, 0.75, 1.0, 1.25, 1.5, 1.75]
 # meths = ['n2n', 'n2n']
 # is_weighted = [False, True]
 #
-meths = ['noisier2full', 'noisier2full', 'noise2recon', 'robust_ssdu',  'robust_ssdu']
-is_weighted = [False, True, None, False,  True]
+meths = ['noisier2full', 'noisier2full', 'noise2recon', 'robust_ssdu',  'robust_ssdu', "r2r_ssdu"]
+is_weighted = [False, True, None, False,  True, None]
 
 # meths = ['n2n', 'n2n', 'n2n_ssdu',  'n2n_ssdu']
 # is_weighted = [False, True, False,  True]
 
 nm = ['Noisier2Full', 'Weighted Noisier2Full', 'Noise2Recon',
-      'Robust SSDU', 'Weighted Robust SSDU']
+      'Robust SSDU', 'Weighted Robust SSDU', "Weighted R2R SSDU"]
 
 
 col = ['black',  'black', 'red', 'green', 'orange', 'blue', 'green', 'red']
@@ -48,8 +49,8 @@ col = ['#CC2200', 'green', 'blue', 'black', 'orange', 'blue', 'orange',  '#CC220
 markers = ['x', '+', '*', 'o', '+', 'x', '+']
 linestyles = ['-.', '-', '-.', '-', '--', ':', '-.', '-']
 
-subset = (0, 1, 3, 4)
-# subset = (0, 1)
+subset = (0, 1, 3, 4, 5)
+# subset = (3, 4, 5)
 
 meths = [meths[i] for i in subset]
 nm = [nm[i] for i in subset]
@@ -96,6 +97,7 @@ print(all_nmse)
 sns.set_theme()
 
 baseline_res = '/home/xsd618/noisier2noise_kspace_denoising/saved/logs/cuda/whole_experiment/8x/0.06/full.yaml/16422984/results.npz'
+print('baseline is {}'.format(baseline_res))
 res = np.load(baseline_res)
 baseline_nmse = np.mean(res[loss_type][~np.isnan(res[loss_type])])
 print(baseline_nmse)
@@ -118,9 +120,11 @@ for ii in range(n_meths):
     # prc_worse = 100 * all_nmse[0, :, ii] / all_nmse[0, :, 0] - 100
     # prc_worse = 100 * all_nmse[:, ii] / baseline_nmse - 100
     prc_worse = all_nmse[:, ii] -  baseline_nmse
+    #prc_worse = -prc_worse
     print(prc_worse)
     ax.plot(alphas, prc_worse, col[ii], marker=markers[ii],  linestyle=linestyles[ii])
 
+#ax.set_ylabel('$L_{Benchmark} - L$',  fontsize=14)
 ax.set_ylabel('$L - L_{Benchmark}$',  fontsize=14)
 # ax.set_xlim([0.015, 0.085])
 #ax.set_ylim([-5, 100])
