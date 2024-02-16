@@ -97,6 +97,7 @@ print(all_nmse)
 sns.set_theme()
 
 baseline_res = '/home/xsd618/noisier2noise_kspace_denoising/saved/logs/cuda/whole_experiment/8x/0.06/full.yaml/16422984/results.npz'
+baseline_res = '/home/xsd618/noisier2noise_kspace_denoising/saved/logs/cuda/new_format/full_trunc.yaml/47550499_1/results.npz'
 print('baseline is {}'.format(baseline_res))
 res = np.load(baseline_res)
 baseline_nmse = np.mean(res[loss_type][~np.isnan(res[loss_type])])

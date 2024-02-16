@@ -1,7 +1,7 @@
 from utils_n2n.utils import *
 from torch.utils.data import Dataset
 from model.mask_tools import *
-from random import sample
+
 
 class ZfData(Dataset):
     def __init__(self, categ='train', config=dict):
@@ -15,6 +15,7 @@ class ZfData(Dataset):
         self.data_norm = config['data']['norm']
         self.whiten_noise = config['noise']['whiten']
         self.whiten_sq_sz = config['noise']['whiten_sq_sz']
+        self.fixed_omega = config['mask']['fixed_omega']
 
         self.prob_omega = gen_pdf(self.nx, self.ny, 1 / config['mask']['us_fac'], config['mask']['poly_order'],
                                   config['mask']['fully_samp_size'], self.sample_type)
@@ -34,7 +35,11 @@ class ZfData(Dataset):
         y0 = self._get_multicoil(file_idx, slice_idx)
         im_mask = self._get_mask(file_idx, slice_idx)
 
-        set_seeds(idx)
+        if self.fixed_omega:
+            set_seeds(idx)
+        else:
+            set_seeds(None)
+
         mask_omega = mask_from_prob(self.prob_omega, self.sample_type)
         noise1 = torch.randn(y0.shape).float()
 
