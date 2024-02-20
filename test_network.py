@@ -187,7 +187,7 @@ def main(config, log_loc):
                     loss.append(mse_loss(y1, y2))
                     loss_tilde.append(mse_loss(y1_tilde, y2))
 
-                print(i, all_ssim, all_ssim_bm3d, loss_rss, loss)
+                # print(i, all_ssim, all_ssim_bm3d, loss_rss, loss)
 
                 np.savez(log_loc + '/results.npz', loss=loss, loss_tilde=loss_tilde,
                          loss_rss=loss_rss, loss_rss_tilde=loss_rss_tilde,

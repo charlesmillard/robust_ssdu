@@ -10,8 +10,6 @@ import argparse
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import MultiStepLR
 
-from random import sample
-
 from data_loader.zf_data_loader import ZfData
 from utils_n2n.preparations import *
 from configs.config_loader import *
