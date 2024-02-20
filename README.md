@@ -19,17 +19,17 @@ and self-supervised reconstruction and denoising [paper](https://arxiv.org/abs/2
 To train a network, run
 
 ```bash
-python train_network.py -c config_name -l log_loc
+python train_network.py -c <config_name> -l <log_loc>
 ```
-where `config_name` is the  name of one of the configuration files in the configs folder
-and `log_loc` is the root for saving the model and tensorboard summary. 
+where `<config_name>` is the  name of one of the configuration files in the configs folder
+and `<log_loc>` is the root for saving the model and tensorboard summary. 
 
 For instance,
 ```bash
-python train_network.py -c default.yaml -l saved/logs/cpu/default/ 
+python train_network.py -c default.yaml -l saved/logs/default/ 
 ```
 trains according to the configuration in the `default.yaml` file and saves the result in the 
-directory `saved/logs/cpu/default/`. 
+directory `saved/logs/default/`. 
 
 We have provided an example configuration file for each of the training methods in the paper. All of the example configurations
 are for 8x column-wise sub-sampled data.
@@ -40,15 +40,15 @@ are for 8x column-wise sub-sampled data.
 To test a network, run 
 
 ```bash
-python train_network.py -l log_loc
+python train_network.py -l <log_loc>
 ```
 where log_loc is the location of the saved network. For instance,
 
 ```bash
-python test_network.py -l saved/logs/cpu/default/
+python test_network.py -l saved/logs/default/
 ```
 
-runs the test script on the model saved in `saved/logs/cpu/default/` and saves the results in that directory.
+runs the test script on the model saved in `saved/logs/default/` and saves the results in that directory.
 
 
 
