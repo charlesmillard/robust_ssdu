@@ -37,7 +37,7 @@ network:
 
 #------ optimizer
 optimizer:
-  method: robust_ssdu
+  method: ssdu
   K_weight: true
   alpha_weight: true
   batch_size: 2

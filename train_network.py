@@ -8,7 +8,7 @@ Created on Nov 1st 2021
 import argparse
 
 from torch.utils.data import DataLoader
-from torch.optim.lr_scheduler import MultiStepLR
+from torch.optim.lr_scheduler import MultiStepLR, CosineAnnealingLR
 
 from data_loader.zf_data_loader import ZfData
 from utils_n2n.preparations import *
@@ -39,8 +39,12 @@ def main(config):
     pass_network, network = create_network(config)
     optimizer = create_optimizer(network, config)
 
-    if config['optimizer']['sched_mstones'] is not None:
-        scheduler = MultiStepLR(optimizer, milestones=config['optimizer']['sched_mstones'], gamma=0.1)
+    sched = config['optimizer']['sched_mstones']
+    if sched is not None:
+        if sched == "cosine":
+            scheduler = CosineAnnealingLR(optimizer, config['optimizer']['epochs'])
+        else:
+            scheduler = MultiStepLR(optimizer, milestones=sched, gamma=0.1)
     else:
         scheduler = None
 
