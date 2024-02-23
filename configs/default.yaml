@@ -46,9 +46,9 @@ optimizer:
   load_model_root: null
   loss: mse
   lr: 1e-3
-  momentum: 0.9
+  momentum: 0.9 # for SGD only
   name: Adam # Adam or SGD
-  weight_decay: 0.0 # for SGD only
+  weight_decay: 0.0
   seed: 100
   sched_mstones: null
 

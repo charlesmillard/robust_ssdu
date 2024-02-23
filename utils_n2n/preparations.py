@@ -53,6 +53,9 @@ def create_optimizer(base_net, config):
     if config['optimizer']['name'] == 'Adam':
         optimizer = torch.optim.Adam(base_net.parameters(), lr=float(config['optimizer']['lr'])
                                      , weight_decay=float(config['optimizer']['weight_decay']))
+    elif config['optimizer']['name'] == 'AdamW':
+        optimizer = torch.optim.AdamW(base_net.parameters(), lr=float(config['optimizer']['lr'])
+                                     , weight_decay=float(config['optimizer']['weight_decay']))
     elif config['optimizer']['name'] == 'SGD':
         optimizer = torch.optim.SGD(base_net.parameters(), lr=float(config['optimizer']['lr'])
                                     , weight_decay=float(config['optimizer']['weight_decay']),
