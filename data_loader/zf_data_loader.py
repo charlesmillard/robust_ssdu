@@ -35,7 +35,7 @@ class ZfData(Dataset):
         y0 = self._get_multicoil(file_idx, slice_idx)
         im_mask = self._get_mask(file_idx, slice_idx)
 
-        if self.fixed_omega:
+        if self.fixed_omega or self.__name__ == "test":
             set_seeds(idx)
         else:
             set_seeds(None)
