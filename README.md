@@ -1,11 +1,10 @@
-# Noisier2Noise for reconstruction
-**A framework for self-supervised MR image reconstruction and denoising**
+# Robust SSDU
+**Simultaneous self-supervised image reconstruction and denoising**
 
 _Charles Millard, Mark Chiew_
 
 
-This repository reproduces results from our self-supervised reconstruction [paper](https://ieeexplore.ieee.org/abstract/document/10194985) 
-and self-supervised reconstruction and denoising [paper](https://arxiv.org/abs/2210.01696).
+This repository reproduces results from our self-supervised reconstruction and denoising [paper](https://arxiv.org/abs/2210.01696).
 
 [BibTeX](#citation)
 
@@ -19,17 +18,17 @@ and self-supervised reconstruction and denoising [paper](https://arxiv.org/abs/2
 To train a network, run
 
 ```bash
-python train_network.py -c <config_name> -l <log_loc>
+python train_network.py -c <config_name> -d <data_loc> -l <log_loc> 
 ```
-where `<config_name>` is the  name of one of the configuration files in the configs folder
-and `<log_loc>` is the root for saving the model and tensorboard summary. 
+where `<config_name>` is the  name of one of the configuration files in the configs folder, `<data_loc>` is the 
+location of the data and `<log_loc>` is the location to save the model and tensorboard summary.
 
 For instance,
 ```bash
-python train_network.py -c default.yaml -l saved/logs/default/ 
+python train_network.py -c default.yaml -d /home/data/fastmri/ -l saved/logs/default/ 
 ```
-trains according to the configuration in the `default.yaml` file and saves the result in the 
-directory `saved/logs/default/`. 
+trains according to the configuration in the `default.yaml` file, uses data from `/home/data/fastmri/`
+and saves the result in the directory `saved/logs/default/`. 
 
 We have provided an example configuration file for each of the training methods in the paper. All of the example configurations
 are for 8x column-wise sub-sampled data.
@@ -60,7 +59,7 @@ given in the configuration file. We have included the necessary fastMRI code in 
 ## Contact
 
 If you have any questions/comments, please feel free to contact Charles
-(Charlie) Millard at [charles.millard@ndcn.ox.ac.uk](charles.millard@ndcn.ox.ac.uk) or Mark Chiew at
+(Charlie) Millard at [charliemillard@live.co.uk](charles.millard@ndcn.ox.ac.uk) or Mark Chiew at
 [mark.chiew@utoronto.ca](mark.chiew@utoronto.ca)
 
 ## Citations
