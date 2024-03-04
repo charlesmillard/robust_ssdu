@@ -25,10 +25,10 @@ For instance,
 python train_network.py -c default.yaml -d /home/data/fastmri/ -l saved/logs/default/ 
 ```
 trains according to the configuration in the `default.yaml` file, uses data from `/home/data/fastmri/`
-and saves the result in the directory `saved/logs/default/`. 
+and saves the result in the directory `saved/logs/default/`. If an entry in the config file is missing 
+the entry from default.yaml will be used automatically.
 
-We have provided an example configuration file for each of the training methods in the paper. All of the example configurations
-are for 8x column-wise sub-sampled data.
+We have provided example configuration files for the training methods in the paper.
 
 
 ### Testing
