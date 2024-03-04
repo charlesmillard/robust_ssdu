@@ -1,33 +1,33 @@
 
 #----- configure the data loader
 data:
-  set: fastmri
+  set: fastmri # fastmri or m4raw
   nx: 640
   ny: 320
-  train_trunc: null
-  val_trunc: null
+  train_trunc: null # truncate training set to n slices
+  val_trunc: null # truncate training set to n slices
   fixed_ncoil: 16 # if not null, only include data on fixed_ncoil coils
   norm: True # normalise data to maximum 1
 
 #---- sampling and further sampling (lambda) masks
 mask:
-  sample_type: columns
-  sample_type_lambda: columns
-  fully_samp_size: 10
+  sample_type: columns # first mask
+  sample_type_lambda: columns # second, partitioning mask
+  fully_samp_size: 10 # fully sampled central region
   fully_samp_size_lambda: 10
-  poly_order: 8
+  poly_order: 8 # polynomial order
   poly_order_lambda: 8
-  us_fac: 8
+  us_fac: 8 # sub-sampling factor
   us_fac_lambda: 2
-  fixed_omega: True
+  fixed_omega: True # if False, first mask changes once per epoch
 
 #----- measurement and additional noise
 noise:
   sim_noise: True # should noise be simulated?
   sigma1: 0.06 # simluated noise std
   alpha: 1 # ratio of noise and further noise
-  whiten: False
-  whiten_sq_sz: 30
+  whiten: False # estimate and whiten noise
+  whiten_sq_sz: 30 # square size in corner to estimate measurement noise
 
 #----- network params
 network:
@@ -37,16 +37,16 @@ network:
 
 #------ optimizer
 optimizer:
-  method: robust_ssdu
-  K_weight: true
-  alpha_weight: true
+  method: robust_ssdu # full, robust_ssdu, ssdu, noise2full, noisier2full or noise2recon
+  K_weight: true # (1- K)^{-1/2} weighting?
+  alpha_weight: true # alpha-based weighting?
   batch_size: 2
   epochs: 100
   noise2recon_lamb: 1
-  load_model_root: null
+  load_model_root: null # load pre-saved models
   loss: mse
   lr: 1e-3
-  momentum: 0.9 # for SGD only
+  momentum: 0.9
   name: Adam # Adam or SGD
   weight_decay: 0.0
   seed: 100
