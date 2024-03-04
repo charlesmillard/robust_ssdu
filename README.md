@@ -1,13 +1,10 @@
 # Robust SSDU
 **Simultaneous self-supervised image reconstruction and denoising**
 
-_Charles Millard, Mark Chiew_
+_Charles Millard and Mark Chiew_
 
 
 This repository reproduces results from our self-supervised reconstruction and denoising [paper](https://arxiv.org/abs/2210.01696).
-
-[BibTeX](#citation)
-
 
 ![A schematic of the proposed self-supervised reconstruction and denoising method](./flowchart_denoising.svg)
 

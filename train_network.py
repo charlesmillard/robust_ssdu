@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Nov 1st 2021
-
 @author: Charles Millard
 """
 
@@ -62,8 +60,6 @@ if __name__ == '__main__':
     torch.set_default_dtype(DTYPE)
     torch.backends.cudnn.enabled = False
 
-    #test
-
     args = argparse.ArgumentParser(description='Robust SSDU')
     args.add_argument('-c', '--config', default='default.yaml', type=str,
                       help='config file path (default: default.yaml)')
@@ -76,7 +72,7 @@ if __name__ == '__main__':
 
     # load and setup config
     config_main = load_config('configs/' + args.config)
-    config_main = reformat_config(config_main)
+    # config_main = reformat_config(config_main)
     config_main = set_missing_config_entries(config_main)
     config_main = prepare_config(config_main, args)
 

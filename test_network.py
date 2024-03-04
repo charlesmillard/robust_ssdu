@@ -138,12 +138,10 @@ def main(config, log_loc):
                     outputs = pass_network(y_tilde, network)
                     y0_est_tilde = (y_tilde != 0) * outputs + outputs * (y_tilde == 0)
 
-
-
                 y0_est = zero_k(y0_est)
                 y0_est_tilde = zero_k(y0_est_tilde)
 
-                pad_mask = x0 > 0 # torch.max(x0) / 6
+                pad_mask = x0 > 0
 
                 x0_est = kspace_to_rss(y0_est)
                 x0_est_tilde = kspace_to_rss(y0_est_tilde)
@@ -183,11 +181,8 @@ def main(config, log_loc):
                     y1 = y0_est[ii].detach().cpu()
                     y1_tilde = y0_est_tilde[ii].detach().cpu()
                     y2 = y0[ii].detach().cpu()
-                    # m_omg = mask_omega[ii].detach().cpu()
                     loss.append(mse_loss(y1, y2))
                     loss_tilde.append(mse_loss(y1_tilde, y2))
-
-                # print(i, all_ssim, all_ssim_bm3d, loss_rss, loss)
 
                 np.savez(log_loc + '/results.npz', loss=loss, loss_tilde=loss_tilde,
                          loss_rss=loss_rss, loss_rss_tilde=loss_rss_tilde,
@@ -227,7 +222,7 @@ if __name__ == '__main__':
     args = args.parse_args()
 
     config_main = load_config(args.log_loc + '/config')
-    config_main = reformat_config(config_main)
+    # config_main = reformat_config(config_main)
     config_main = set_missing_config_entries(config_main)
     config_main = prepare_config(config_main, args)
     config_main['network']['device'] = 'cuda' if torch.cuda.is_available() else 'cpu'
