@@ -50,8 +50,7 @@ runs the test script on the model saved in `saved/logs/default/` and saves the r
 
 ### Data
 The code is designed to train on the fastMRI knee or brain dataset, which can be downloaded [here](https://fastmri.org/), 
-or the low-field M4Raw dataset, which can be downloaded [here](https://zenodo.org/records/8056074). The path of the data should be
-given in the configuration file. We have included the necessary fastMRI code in this package.
+or the low-field M4Raw dataset, which can be downloaded [here](https://zenodo.org/records/8056074). 
 
 ## Contact
 
