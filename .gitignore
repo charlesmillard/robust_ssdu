@@ -3,3 +3,14 @@ qlogs/*
 saved/*
 feature_testing/*
 packages/*
+misc/*
+configs/*
+!configs/default.yaml
+!configs/config_loader.py
+!configs/robust_ssdu_examples/
+!configs/ssdu_examples/
+.idea/*
+plot_results/*
+__pycache__/*
+save_examples.py
+
