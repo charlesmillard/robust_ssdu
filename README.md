@@ -10,6 +10,11 @@ This repository reproduces results from our self-supervised reconstruction and d
 
 ## Usage 
 
+This repo uses Python 3.9.19. Package dependences can be installed with
+
+```bash 
+pip install -r requirements.txt
+```
 
 ### Training
 To train a network, run
